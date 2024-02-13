@@ -1,2 +1,0 @@
-# Haramillo.github.io
-MayraMuro
