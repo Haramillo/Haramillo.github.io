@@ -19,11 +19,46 @@
       <span class="close" title="Restart"><i class="fa fa-times"></i></span>  
       <h1>Mayra Muro</h1>
       <h2>¿Quieres ser mi Valentin?</h2>
-      <h3>14 de Feb 2024</h3>
+      <h3 class="text">14 de Feb 2024</h3>
+	  <div style="display: flex; justify-content: center;">
+	  <button class="button" style="display: inline-block;background: springgreen;color: black;border-style: groove;font-size: large;">SÍ</button>
+	  <button class="button button__negative" style="display: inline-block;background: orange;color: black;border-style: groove;font-size: large;">NO</button>
+      <button class="button button__error">Error</button>
+	  </div>
     </div>
   </div>
 </div>
 <style>
+
+  .button {
+    background-color: var(--heart-color);
+    color: var(--white);
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 80px;
+  }
+  .button.button__negative{
+    background-color: var(--white);
+    color: var(--heart-color);
+    border: 1px solid var(--heart-color);
+  }
+  .button.button__error{
+    width: 100%;
+    display: none;
+	background: orange;
+	color: black;
+	border-style: groove;
+	font-size: large;
+  }
+  .button:focus {
+    outline: none;
+  }
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 body{
   background: url(https://subtlepatterns.com/patterns/noise_lines.png);
@@ -194,7 +229,52 @@ body{
 }
 </style>
 <script>
+const alternatives = [
+    {text:"14 de Feb 2024"},
+    {text:"Te prometo que será inolvidable"},
+    {text:"Piénsalo de nuevo"},
+    {text:"Vamos, atrévete a decir que sí"},
+    {text:"Que el miedo no te detenga"}
+];
+const ohyes = {text:"Sabía que aceptarías"};
+const title = document.querySelector('.title');
+const text = document.querySelector('.text');
+const cat = document.querySelector('.cat');
+const buttons = document.querySelectorAll('.button');
+const errorButton = document.querySelector('.button__error');
+
+let count = 0;
+function updateDisplay(item) {
+    text.innerHTML = item.text;
+}
+
+errorButton.addEventListener('click', () => {
+    count = 0;
+    updateDisplay(alternatives[count]);
+    buttons.forEach(btn => btn.style.display = 'inline-block');
+    errorButton.style.display = 'none';
+});
+
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        if(button.textContent === 'SÍ'){
+            updateDisplay(ohyes);
+            buttons.forEach(btn => btn.style.display = 'none');
+        }
+        if (button.textContent === 'NO'){
+            count++;
+            if(count < alternatives.length){
+                updateDisplay(alternatives[count]);
+            } else {
+                buttons.forEach(btn => btn.style.display = 'none');
+                errorButton.style.display = 'inline-block';
+            }
+        }
+    });
+});
 $(document).ready(function(){
+  count = 0;
+  	updateDisplay(alternatives[count]);
   $('.title').click(function(){
     $('.container').addClass('open');
   });
